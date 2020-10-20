@@ -7,13 +7,10 @@
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
+    <extensions defaultExtensionNs="com.intellij"><!--
         <applicationService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyProjectService"/>
+        <projectService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyProjectService"/>-->
+        <completion.contributor language="HTML"
+                implementationClass="com.github.glennlefevere.WebComponentContributor"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.glennlefevere.stenciljswebcomponents.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>
