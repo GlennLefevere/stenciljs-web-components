@@ -1,4 +1,4 @@
-package com.github.glennlefevere.util;
+package com.github.glennlefevere.stenciljswebcomponents.util;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.psi.PsiElement;

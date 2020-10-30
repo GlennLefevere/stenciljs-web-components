@@ -1,4 +1,4 @@
-package com.github.glennlefevere.dto;
+package com.github.glennlefevere.stenciljswebcomponents.dto;
 
 import java.util.ArrayList;
 import java.util.List;

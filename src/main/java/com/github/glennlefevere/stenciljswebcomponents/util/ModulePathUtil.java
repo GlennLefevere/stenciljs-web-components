@@ -1,4 +1,4 @@
-package com.github.glennlefevere.util;
+package com.github.glennlefevere.stenciljswebcomponents.util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,7 +28,7 @@ public class ModulePathUtil {
         try {
             String fileContents = String.join("", Files.readAllLines(file));
             return fileContents.contains("@stencil/core") &&
-                   fileContents.contains("\"components\"");
+                   fileContents.contains("\"entries\"");
         } catch (IOException e) {
             return false;
         }

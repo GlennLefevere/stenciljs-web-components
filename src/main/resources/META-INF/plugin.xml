@@ -3,6 +3,7 @@
     <name>stenciljs-web-components</name>
     <vendor>glennlefevere</vendor>
 
+
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
@@ -11,6 +12,7 @@
         <applicationService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyProjectService"/>-->
         <completion.contributor language="HTML"
-                implementationClass="com.github.glennlefevere.WebComponentContributor"/>
+                implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
     </extensions>
 </idea-plugin>
+<!-- perm:Z2xlbm4ubGVmZXZlcmU=.OTItMjcyNw==.uO046jJSAa5YMxU9d7wNHQZ2YhFwZo -->

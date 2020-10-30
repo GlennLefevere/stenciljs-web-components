@@ -1,8 +1,8 @@
-package com.github.glennlefevere;
+package com.github.glennlefevere.stenciljswebcomponents;
 
-import com.github.glennlefevere.dto.StencilDoc;
-import com.github.glennlefevere.dto.StencilMergedDoc;
-import com.github.glennlefevere.util.ModulePathUtil;
+import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDoc;
+import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.util.ModulePathUtil;
 import com.google.gson.Gson;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;

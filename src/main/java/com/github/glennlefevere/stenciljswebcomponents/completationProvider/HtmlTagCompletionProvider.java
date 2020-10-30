@@ -1,8 +1,8 @@
-package com.github.glennlefevere.completationProvider;
+package com.github.glennlefevere.stenciljswebcomponents.completationProvider;
 
-import com.github.glennlefevere.StencilDocReader;
-import com.github.glennlefevere.dto.StencilMergedDoc;
-import com.github.glennlefevere.util.CompletionTypeUtil;
+import com.github.glennlefevere.stenciljswebcomponents.StencilDocReader;
+import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.util.CompletionTypeUtil;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;

@@ -1,10 +1,10 @@
-package com.github.glennlefevere;
+package com.github.glennlefevere.stenciljswebcomponents;
 
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 
-import com.github.glennlefevere.completationProvider.HtmlAttributeCompletionProvider;
-import com.github.glennlefevere.completationProvider.HtmlTagCompletionProvider;
+import com.github.glennlefevere.stenciljswebcomponents.completationProvider.HtmlAttributeCompletionProvider;
+import com.github.glennlefevere.stenciljswebcomponents.completationProvider.HtmlTagCompletionProvider;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.XmlPatterns;
 

@@ -1,4 +1,4 @@
-package com.github.glennlefevere.completationProvider;
+package com.github.glennlefevere.stenciljswebcomponents.completationProvider;
 
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 
