@@ -14,7 +14,7 @@ public class WebComponentContributor extends CompletionContributor {
     private static final Logger log = Logger.getInstance(WebComponentContributor.class);
 
     public WebComponentContributor() {
-        log.info("Initialized");
+        log.error("Initialized");
 
         extend(CompletionType.BASIC,
                psiElement().inside(XmlPatterns.xmlTag()),

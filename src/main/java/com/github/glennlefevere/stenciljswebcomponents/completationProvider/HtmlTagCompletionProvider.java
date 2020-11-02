@@ -24,7 +24,7 @@ public class HtmlTagCompletionProvider extends CompletionProvider<CompletionPara
             StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.stencilDoc;
             stencilDoc.getComponents()
                       .forEach(stencilDocComponent -> {
-                          log.info(stencilDocComponent.tag);
+                          log.error(stencilDocComponent.tag);
                           LookupElementBuilder lookupElement = LookupElementBuilder.create(stencilDocComponent.tag);
                           completionResultSet.addElement(IconUtil.addIcon(lookupElement));
                       });

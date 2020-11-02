@@ -37,7 +37,7 @@ public class StencilDocReader {
 
                 for (Path docPath : getAllStencilDocs(project.getBasePath())) {
                     String json = String.join("", Files.readAllLines(docPath));
-                    log.info(json);
+                    log.error(json);
                     StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
                     mergedDoc.addComponents(stencilDoc.components);
                 }
