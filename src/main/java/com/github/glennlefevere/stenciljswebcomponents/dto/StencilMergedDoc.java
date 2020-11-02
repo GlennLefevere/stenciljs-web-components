@@ -14,7 +14,6 @@ public class StencilMergedDoc {
     }
 
     public void addComponents(List<StencilDocComponent> components) {
-        log.error(components);
         if (this.components == null) {
             this.components = new ArrayList<>();
         }

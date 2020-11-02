@@ -37,7 +37,6 @@ public class StencilDocReader {
 
                 for (Path docPath : getAllStencilDocs(project.getBasePath())) {
                     String json = String.join("", Files.readAllLines(docPath));
-                    log.error(json);
                     StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
                     mergedDoc.addComponents(stencilDoc.components);
                 }
@@ -56,6 +55,7 @@ public class StencilDocReader {
         List<Path> allStencilDocs = new ArrayList<>();
 
         for (Path stencilModule : allStencilModules) {
+            log.info(stencilModule.toString());
             allStencilDocs.addAll(Files.walk(stencilModule.getParent())
                                        .filter(ModulePathUtil::isJsonFile)
                                        .filter(ModulePathUtil::isStencilDocsFile)

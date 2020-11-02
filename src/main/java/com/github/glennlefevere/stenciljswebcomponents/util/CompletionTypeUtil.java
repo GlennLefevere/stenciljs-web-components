@@ -10,10 +10,8 @@ public class CompletionTypeUtil {
     public static boolean isTag(CompletionParameters parameters) {
         PsiElement position = parameters.getPosition().getPrevSibling();
         if (position != null) {
-            log.error(position.getText());
             return position.getText().equals("<");
         }
-        log.error("position null");
         return false;
     }
 }

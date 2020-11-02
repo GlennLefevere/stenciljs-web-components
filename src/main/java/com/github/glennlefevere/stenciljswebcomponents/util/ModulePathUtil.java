@@ -28,7 +28,7 @@ public class ModulePathUtil {
         try {
             String fileContents = String.join("", Files.readAllLines(file));
             return fileContents.contains("@stencil/core") &&
-                   fileContents.contains("\"entries\"");
+                   fileContents.contains("\"components\"");
         } catch (IOException e) {
             return false;
         }
