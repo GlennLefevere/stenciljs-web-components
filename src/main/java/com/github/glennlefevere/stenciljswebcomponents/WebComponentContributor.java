@@ -7,11 +7,14 @@ import com.github.glennlefevere.stenciljswebcomponents.completationProvider.Html
 import com.github.glennlefevere.stenciljswebcomponents.completationProvider.HtmlTagCompletionProvider;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionType;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.patterns.XmlPatterns;
 
 public class WebComponentContributor extends CompletionContributor {
+    private static final Logger log = Logger.getInstance(WebComponentContributor.class);
 
     public WebComponentContributor() {
+        log.info("Initialized");
 
         extend(CompletionType.BASIC,
                psiElement().inside(XmlPatterns.xmlTag()),
