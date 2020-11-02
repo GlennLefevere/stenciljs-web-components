@@ -55,7 +55,6 @@ public class StencilDocReader {
         List<Path> allStencilDocs = new ArrayList<>();
 
         for (Path stencilModule : allStencilModules) {
-            log.info(stencilModule.toString());
             allStencilDocs.addAll(Files.walk(stencilModule.getParent())
                                        .filter(ModulePathUtil::isJsonFile)
                                        .filter(ModulePathUtil::isStencilDocsFile)

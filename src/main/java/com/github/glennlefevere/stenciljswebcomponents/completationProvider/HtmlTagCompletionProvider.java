@@ -11,6 +11,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.Collectors;
+
 public class HtmlTagCompletionProvider extends CompletionProvider<CompletionParameters> {
     private static final Logger log = Logger.getInstance(HtmlTagCompletionProvider.class);
 
@@ -22,12 +24,11 @@ public class HtmlTagCompletionProvider extends CompletionProvider<CompletionPara
 
         if (CompletionTypeUtil.isTag(parameters)) {
             StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.stencilDoc;
-            if(stencilDoc.getComponents() != null) {
-                stencilDoc.getComponents()
-                          .forEach(stencilDocComponent -> {
-                              LookupElementBuilder lookupElement = LookupElementBuilder.create(stencilDocComponent.tag);
-                              completionResultSet.addElement(IconUtil.addIcon(lookupElement));
-                          });
+            if (stencilDoc.getComponents() != null) {
+                completionResultSet.addAllElements(
+                        stencilDoc.getComponents().stream()
+                                .map(component -> IconUtil.addIcon(LookupElementBuilder.create(component.tag)))
+                                .collect(Collectors.toList()));
             }
         }
 
