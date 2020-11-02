@@ -4,9 +4,9 @@ import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDoc;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
 import com.github.glennlefevere.stenciljswebcomponents.util.ModulePathUtil;
 import com.google.gson.Gson;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StencilDocReader {
+    private static final Logger log = Logger.getInstance(StencilDocReader.class);
 
     public static StencilDocReader INSTANCE = new StencilDocReader();
 
@@ -36,6 +37,7 @@ public class StencilDocReader {
 
                 for (Path docPath : getAllStencilDocs(project.getBasePath())) {
                     String json = String.join("", Files.readAllLines(docPath));
+                    log.info(json);
                     StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
                     mergedDoc.addComponents(stencilDoc.components);
                 }

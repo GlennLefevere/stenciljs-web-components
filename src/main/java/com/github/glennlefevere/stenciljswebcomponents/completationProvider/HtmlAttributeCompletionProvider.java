@@ -6,6 +6,7 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.html.HtmlTagImpl;
 import com.intellij.psi.impl.source.xml.XmlAttributeImpl;
@@ -15,6 +16,7 @@ import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
 public class HtmlAttributeCompletionProvider extends CompletionProvider<CompletionParameters> {
+    private static final Logger log = Logger.getInstance(HtmlAttributeCompletionProvider.class);
 
     @Override
     protected void addCompletions(@NotNull CompletionParameters parameters,
@@ -25,6 +27,7 @@ public class HtmlAttributeCompletionProvider extends CompletionProvider<Completi
         PsiReference reference = parameters.getPosition().getContainingFile().findReferenceAt(parameters.getOffset());
         if (reference != null) {
             String name = ((XmlAttributeReference) reference).getElement().getParent().getName();
+            log.info(name);
             stencilDoc.getComponents().stream()
                       .filter(stencilDocComponent -> stencilDocComponent.tag.equals(name))
                       .forEach(stencilDocComponent -> {
@@ -38,6 +41,7 @@ public class HtmlAttributeCompletionProvider extends CompletionProvider<Completi
             if (parameters.getPosition().getParent() instanceof XmlAttributeValue) {
                 XmlAttributeImpl xmlAttribute = (XmlAttributeImpl) parameters.getPosition().getParent().getParent();
                 HtmlTagImpl htmlTag = (HtmlTagImpl) xmlAttribute.getParent();
+                log.info(htmlTag.getName());
                 stencilDoc.getComponents().stream()
                           .filter(stencilDocComponent -> stencilDocComponent.tag.equals(htmlTag.getName()))
                           .forEach(stencilDocComponent -> {
