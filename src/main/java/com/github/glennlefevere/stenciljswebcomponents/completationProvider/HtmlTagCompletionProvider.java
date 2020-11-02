@@ -22,12 +22,14 @@ public class HtmlTagCompletionProvider extends CompletionProvider<CompletionPara
 
         if (CompletionTypeUtil.isTag(parameters)) {
             StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.stencilDoc;
-            stencilDoc.getComponents()
-                      .forEach(stencilDocComponent -> {
-                          log.error(stencilDocComponent.tag);
-                          LookupElementBuilder lookupElement = LookupElementBuilder.create(stencilDocComponent.tag);
-                          completionResultSet.addElement(IconUtil.addIcon(lookupElement));
-                      });
+            if(stencilDoc.getComponents() != null) {
+                stencilDoc.getComponents()
+                          .forEach(stencilDocComponent -> {
+                              log.error(stencilDocComponent.tag);
+                              LookupElementBuilder lookupElement = LookupElementBuilder.create(stencilDocComponent.tag);
+                              completionResultSet.addElement(IconUtil.addIcon(lookupElement));
+                          });
+            }
         }
 
     }
