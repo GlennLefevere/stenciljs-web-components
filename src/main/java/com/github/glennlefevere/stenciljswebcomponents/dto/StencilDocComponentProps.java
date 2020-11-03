@@ -4,5 +4,6 @@ import java.util.List;
 
 public class StencilDocComponentProps {
     public String name;
+    public boolean required;
     public List<StencilDocComponentPropsValues> values;
 }

@@ -12,7 +12,12 @@
         <applicationService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyProjectService"/>-->
         <completion.contributor language="HTML"
-                implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
+                                implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
+
+        <xml.elementDescriptorProvider
+                implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentDescriptorsProvider"/>
+        <xml.attributeDescriptorsProvider
+                implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentAttributeDescriptorsProvider"/>
     </extensions>
 </idea-plugin>
-<!-- perm:Z2xlbm4ubGVmZXZlcmU=.OTItMjcyNw==.uO046jJSAa5YMxU9d7wNHQZ2YhFwZo -->
+        <!-- perm:Z2xlbm4ubGVmZXZlcmU=.OTItMjcyNw==.uO046jJSAa5YMxU9d7wNHQZ2YhFwZo -->

@@ -31,7 +31,6 @@ val platformType: String by project
 val platformVersion: String by project
 val platformPlugins: String by project
 val platformDownloadSources: String by project
-
 group = pluginGroup
 version = pluginVersion
 
@@ -39,6 +38,10 @@ version = pluginVersion
 repositories {
     mavenCentral()
     jcenter()
+    maven("https://jetbrains.bintray.com/intellij-third-party-dependencies")
+    maven("https://jetbrains.bintray.com/jediterm")
+    maven("https://jetbrains.bintray.com/pty4j")
+    maven("https://cache-redirector.jetbrains.com/www.myget.org/F/rd-snapshots/maven")
 }
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
