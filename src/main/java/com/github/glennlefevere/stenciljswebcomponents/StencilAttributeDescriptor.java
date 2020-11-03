@@ -1,27 +1,38 @@
 package com.github.glennlefevere.stenciljswebcomponents;
 
-import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDocComponentProps;
+import com.github.glennlefevere.stenciljswebcomponents.completationProvider.IconUtil;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.meta.PsiPresentableMetaData;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.xml.XmlAttributeDescriptor;
+import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
+import javax.swing.*;
+import java.net.URL;
 
-public class StencilAttributeDescriptor implements XmlAttributeDescriptor {
+public class StencilAttributeDescriptor implements XmlAttributeDescriptor, PsiPresentableMetaData {
 
-    private final StencilDocComponentProps props;
+    private final String name;
+    private final boolean required;
     private final XmlTag tag;
 
-    public StencilAttributeDescriptor(StencilDocComponentProps props, XmlTag tag) {
-        this.props = props;
+    public StencilAttributeDescriptor(String name, XmlTag tag, boolean required) {
+        this.name = name;
+        this.required = required;
+        this.tag = tag;
+    }
+
+    public StencilAttributeDescriptor(String name, XmlTag tag) {
+        this.name = name;
+        this.required = false;
         this.tag = tag;
     }
 
     @Override
     public boolean isRequired() {
-        return props.required;
+        return this.required;
     }
 
     @Override
@@ -61,7 +72,11 @@ public class StencilAttributeDescriptor implements XmlAttributeDescriptor {
 
     @Override
     public PsiElement getDeclaration() {
-        return Objects.requireNonNull(tag.getAttribute(getName())).getOriginalElement();
+        PsiElement element = tag.getAttribute(getName());
+        if (element != null) {
+            return element.getOriginalElement();
+        }
+        return null;
     }
 
     @Override
@@ -71,11 +86,25 @@ public class StencilAttributeDescriptor implements XmlAttributeDescriptor {
 
     @Override
     public String getName() {
-        return props.name;
+        return this.name;
     }
 
     @Override
     public void init(PsiElement element) {
 
+    }
+
+    @Override
+    public @Nullable @Nls String getTypeName() {
+        return null;
+    }
+
+    @Override
+    public @Nullable Icon getIcon() {
+        URL url = IconUtil.class.getClassLoader().getResource("preview_icon.png");
+        if (url != null) {
+            return new ImageIcon(url);
+        }
+        return null;
     }
 }
