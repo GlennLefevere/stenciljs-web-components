@@ -21,7 +21,7 @@ public class StencilDocReader {
 
     public static StencilDocReader INSTANCE = new StencilDocReader();
 
-    public StencilMergedDoc stencilDoc;
+    private StencilMergedDoc stencilDoc;
 
     private StencilDocReader() {
         Optional<StencilMergedDoc> doc = this.deserialize();
@@ -74,4 +74,11 @@ public class StencilDocReader {
                     .collect(Collectors.toList());
     }
 
+    public StencilMergedDoc getStencilDoc() {
+        if(stencilDoc == null) {
+            Optional<StencilMergedDoc> doc = this.deserialize();
+            doc.ifPresent(value -> this.stencilDoc = value);
+        }
+        return stencilDoc;
+    }
 }

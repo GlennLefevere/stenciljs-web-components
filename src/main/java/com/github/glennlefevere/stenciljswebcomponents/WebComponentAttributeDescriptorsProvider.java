@@ -22,7 +22,7 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
         if(context == null || DumbService.isDumb(context.getProject())){
             return new XmlAttributeDescriptor[0];
         }
-        List<StencilAttributeDescriptor> descriptorList = StencilDocReader.INSTANCE.stencilDoc.getComponents().stream()
+        List<StencilAttributeDescriptor> descriptorList = StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream()
                 .filter(comp -> comp.getTag().equals(context.getName()))
                 .map(comp -> getAllAttributeDescriptors(comp, context))
                 .flatMap(Collection::stream)
@@ -36,10 +36,10 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
     @Override
     public @Nullable XmlAttributeDescriptor getAttributeDescriptor(String attributeName, XmlTag context) {
-        if(context == null || DumbService.isDumb(context.getProject())){
+        if(context == null || DumbService.isDumb(context.getProject()) || StencilDocReader.INSTANCE.getStencilDoc() == null){
             return null;
         }
-       return StencilDocReader.INSTANCE.stencilDoc.getComponents().stream()
+       return StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream()
                 .filter(comp -> comp.getTag().equals(context.getName()))
                 .map(comp -> getAllAttributeDescriptors(comp, context))
                 .flatMap(Collection::stream)

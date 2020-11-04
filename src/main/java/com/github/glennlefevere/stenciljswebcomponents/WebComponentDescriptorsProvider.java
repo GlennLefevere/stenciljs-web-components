@@ -22,7 +22,7 @@ public class WebComponentDescriptorsProvider implements XmlElementDescriptorProv
             return null;
         }
 
-        if(StencilDocReader.INSTANCE.stencilDoc.getComponents().stream().noneMatch(comp -> comp.getTag().equals(tag.getName()))) {
+        if(StencilDocReader.INSTANCE.getStencilDoc() == null || StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream().noneMatch(comp -> comp.getTag().equals(tag.getName()))) {
            return null;
         }
         return new StencilTagDescriptor(tag);

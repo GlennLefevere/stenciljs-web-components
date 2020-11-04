@@ -28,7 +28,7 @@ public class HtmlAttributeCompletionProvider extends CompletionProvider<Completi
                                   @NotNull ProcessingContext processingContext,
                                   @NotNull CompletionResultSet completionResultSet) {
 
-        StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.stencilDoc;
+        StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.getStencilDoc();
         PsiReference reference = parameters.getPosition().getContainingFile().findReferenceAt(parameters.getOffset());
         List<LookupElementBuilder> elements = new ArrayList<>();
         if (reference != null) {

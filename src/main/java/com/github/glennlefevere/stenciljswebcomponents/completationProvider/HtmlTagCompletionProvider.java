@@ -23,8 +23,8 @@ public class HtmlTagCompletionProvider extends CompletionProvider<CompletionPara
 
 
         if (CompletionTypeUtil.isTag(parameters)) {
-            StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.stencilDoc;
-            if (stencilDoc.getComponents() != null) {
+            StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.getStencilDoc();
+            if (stencilDoc != null && stencilDoc.getComponents() != null) {
                 completionResultSet.addAllElements(
                         stencilDoc.getComponents().stream()
                                 .map(component -> IconUtil.addIcon(LookupElementBuilder.create(component.tag)))
