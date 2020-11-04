@@ -7,7 +7,7 @@ import java.util.List;
 public class StencilMergedDoc {
 
     private static final Logger log = Logger.getInstance(StencilMergedDoc.class);
-    private List<StencilDocComponent> components;
+    private List<StencilDocComponent> components = new ArrayList<>();
 
     public List<StencilDocComponent> getComponents() {
         return components;
