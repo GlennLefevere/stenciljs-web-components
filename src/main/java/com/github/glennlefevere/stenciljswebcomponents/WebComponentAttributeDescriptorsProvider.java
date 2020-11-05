@@ -1,8 +1,8 @@
 package com.github.glennlefevere.stenciljswebcomponents;
 
-import com.github.glennlefevere.stenciljswebcomponents.angular.AngularApplication;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDocComponent;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.listeners.AngularProjectListener;
 import com.github.glennlefevere.stenciljswebcomponents.listeners.StencilProjectListener;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.xml.XmlTag;
@@ -64,7 +64,7 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
         component.getProps().forEach(prop -> {
             descriptors.add(new StencilAttributeDescriptor(prop.name, tag, prop.required));
-            if (AngularApplication.INSTANCE.isAngularApplication) {
+            if (AngularProjectListener.INSTANCE.isAngularProject(tag.getProject())) {
                 descriptors.add(new StencilAttributeDescriptor(BANANA_BOX_BINDING.buildName(prop.name, false), tag, prop.required));
                 descriptors.add(new StencilAttributeDescriptor(PROPERTY_BINDING.buildName(prop.name, false), tag, prop.required));
             }
@@ -72,7 +72,7 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
         component.getEvents().forEach(event -> {
             descriptors.add(new StencilAttributeDescriptor(event.event, tag));
-            if (AngularApplication.INSTANCE.isAngularApplication) {
+            if (AngularProjectListener.INSTANCE.isAngularProject(tag.getProject())) {
                 descriptors.add(new StencilAttributeDescriptor(EVENT.buildName(event.event, false), tag));
             }
         });
