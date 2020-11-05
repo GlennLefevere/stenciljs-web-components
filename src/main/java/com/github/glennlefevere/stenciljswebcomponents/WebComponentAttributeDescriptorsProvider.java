@@ -2,6 +2,8 @@ package com.github.glennlefevere.stenciljswebcomponents;
 
 import com.github.glennlefevere.stenciljswebcomponents.angular.AngularApplication;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDocComponent;
+import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.listeners.StencilProjectListener;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.xml.XmlAttributeDescriptor;
@@ -19,10 +21,15 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
     @Override
     public XmlAttributeDescriptor[] getAttributeDescriptors(XmlTag context) {
-        if(context == null || DumbService.isDumb(context.getProject())){
+        if (context == null || DumbService.isDumb(context.getProject())) {
             return new XmlAttributeDescriptor[0];
         }
-        List<StencilAttributeDescriptor> descriptorList = StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream()
+        StencilMergedDoc mergedDoc = StencilProjectListener.INSTANCE.getStencilMergedDocForProject(context.getProject());
+        if (mergedDoc == null || mergedDoc.getComponents() == null) {
+            return null;
+        }
+
+        List<StencilAttributeDescriptor> descriptorList = mergedDoc.getComponents().stream()
                 .filter(comp -> comp.getTag().equals(context.getName()))
                 .map(comp -> getAllAttributeDescriptors(comp, context))
                 .flatMap(Collection::stream)
@@ -36,10 +43,15 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
     @Override
     public @Nullable XmlAttributeDescriptor getAttributeDescriptor(String attributeName, XmlTag context) {
-        if(context == null || DumbService.isDumb(context.getProject()) || StencilDocReader.INSTANCE.getStencilDoc() == null){
+        if (context == null || DumbService.isDumb(context.getProject())) {
             return null;
         }
-       return StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream()
+        StencilMergedDoc mergedDoc = StencilProjectListener.INSTANCE.getStencilMergedDocForProject(context.getProject());
+        if (mergedDoc == null || mergedDoc.getComponents() == null) {
+            return null;
+        }
+
+        return mergedDoc.getComponents().stream()
                 .filter(comp -> comp.getTag().equals(context.getName()))
                 .map(comp -> getAllAttributeDescriptors(comp, context))
                 .flatMap(Collection::stream)
@@ -52,7 +64,7 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
         component.getProps().forEach(prop -> {
             descriptors.add(new StencilAttributeDescriptor(prop.name, tag, prop.required));
-            if(AngularApplication.INSTANCE.isAngularApplication) {
+            if (AngularApplication.INSTANCE.isAngularApplication) {
                 descriptors.add(new StencilAttributeDescriptor(BANANA_BOX_BINDING.buildName(prop.name, false), tag, prop.required));
                 descriptors.add(new StencilAttributeDescriptor(PROPERTY_BINDING.buildName(prop.name, false), tag, prop.required));
             }
@@ -60,7 +72,7 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
 
         component.getEvents().forEach(event -> {
             descriptors.add(new StencilAttributeDescriptor(event.event, tag));
-            if(AngularApplication.INSTANCE.isAngularApplication) {
+            if (AngularApplication.INSTANCE.isAngularApplication) {
                 descriptors.add(new StencilAttributeDescriptor(EVENT.buildName(event.event, false), tag));
             }
         });

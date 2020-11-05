@@ -1,5 +1,7 @@
 package com.github.glennlefevere.stenciljswebcomponents;
 
+import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.listeners.StencilProjectListener;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.impl.source.xml.XmlElementDescriptorProvider;
@@ -22,10 +24,12 @@ public class WebComponentDescriptorsProvider implements XmlElementDescriptorProv
         if (descriptor != null && !(descriptor instanceof AnyXmlElementDescriptor)) {
             return null;
         }
+        StencilMergedDoc mergedDoc = StencilProjectListener.INSTANCE.getStencilMergedDocForProject(tag.getProject());
 
-        if(StencilDocReader.INSTANCE.getStencilDoc() == null || CollectionUtils.isEmpty(StencilDocReader.INSTANCE.getStencilDoc().getComponents()) || StencilDocReader.INSTANCE.getStencilDoc().getComponents().stream().noneMatch(comp -> comp.getTag().equals(tag.getName()))) {
-           return null;
+        if(mergedDoc == null || CollectionUtils.isEmpty(mergedDoc.getComponents()) || mergedDoc.getComponents().stream().noneMatch(comp -> comp.getTag().equals(tag.getName()))) {
+            return null;
         }
+
         return new StencilTagDescriptor(tag);
     }
 

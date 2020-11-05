@@ -18,6 +18,9 @@
                 implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentDescriptorsProvider"/>
         <xml.attributeDescriptorsProvider
                 implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentAttributeDescriptorsProvider"/>
+
+        <preloadingActivity
+                implementation="com.github.glennlefevere.stenciljswebcomponents.preloading.StencilPreloadingActivity"/>
     </extensions>
 </idea-plugin>
         <!-- perm:Z2xlbm4ubGVmZXZlcmU=.OTItMjcyNw==.uO046jJSAa5YMxU9d7wNHQZ2YhFwZo -->

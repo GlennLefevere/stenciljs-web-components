@@ -1,7 +1,7 @@
 package com.github.glennlefevere.stenciljswebcomponents.completationProvider;
 
-import com.github.glennlefevere.stenciljswebcomponents.StencilDocReader;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
+import com.github.glennlefevere.stenciljswebcomponents.listeners.StencilProjectListener;
 import com.github.glennlefevere.stenciljswebcomponents.util.CompletionTypeUtil;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
@@ -23,10 +23,10 @@ public class HtmlTagCompletionProvider extends CompletionProvider<CompletionPara
 
 
         if (CompletionTypeUtil.isTag(parameters)) {
-            StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.getStencilDoc();
-            if (stencilDoc != null && stencilDoc.getComponents() != null) {
+            StencilMergedDoc mergedDoc = StencilProjectListener.INSTANCE.getStencilMergedDocForProject(parameters.getOriginalFile().getProject());
+            if (mergedDoc != null && mergedDoc.getComponents() != null) {
                 completionResultSet.addAllElements(
-                        stencilDoc.getComponents().stream()
+                        mergedDoc.getComponents().stream()
                                 .map(component -> IconUtil.addIcon(LookupElementBuilder.create(component.tag)))
                                 .collect(Collectors.toList()));
             }

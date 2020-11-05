@@ -1,24 +1,11 @@
 package com.github.glennlefevere.stenciljswebcomponents.completationProvider;
 
-import com.github.glennlefevere.stenciljswebcomponents.StencilDocReader;
-import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.html.HtmlTagImpl;
-import com.intellij.psi.impl.source.xml.XmlAttributeImpl;
-import com.intellij.psi.impl.source.xml.XmlAttributeReference;
-import com.intellij.psi.xml.XmlAttributeValue;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class HtmlAttributeCompletionProvider extends CompletionProvider<CompletionParameters> {
     private static final Logger log = Logger.getInstance(HtmlAttributeCompletionProvider.class);
@@ -28,7 +15,7 @@ public class HtmlAttributeCompletionProvider extends CompletionProvider<Completi
                                   @NotNull ProcessingContext processingContext,
                                   @NotNull CompletionResultSet completionResultSet) {
 
-        StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.getStencilDoc();
+/*        StencilMergedDoc stencilDoc = StencilDocReader.INSTANCE.getStencilDoc();
         PsiReference reference = parameters.getPosition().getContainingFile().findReferenceAt(parameters.getOffset());
         List<LookupElementBuilder> elements = new ArrayList<>();
         if (reference != null) {
@@ -54,7 +41,7 @@ public class HtmlAttributeCompletionProvider extends CompletionProvider<Completi
             }
         }
 
-        completionResultSet.addAllElements(elements);
+        completionResultSet.addAllElements(elements);*/
     }
 
 }
