@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AngularApplication {
     private static final Logger log = Logger.getInstance(AngularApplication.class);
@@ -22,20 +24,19 @@ public class AngularApplication {
     }
 
     private void init() {
-        Project project = ProjectManager.getInstance().getOpenProjects()[0];
-
-        if (project != null && project.getBasePath() != null) {
+        for (Project project : Arrays.stream(ProjectManager.getInstance().getOpenProjects()).filter(project -> project.getBasePath() != null).collect(
+                Collectors.toList())) {
             try {
                 Optional<Path> packageJsonPath = getPackageJson(project.getBasePath());
                 if (packageJsonPath.isPresent()) {
                     String fileContents = String.join("", Files.readAllLines(packageJsonPath.get()));
                     this.isAngularApplication = fileContents.contains("@angular/core");
+                    break;
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     private Optional<Path> getPackageJson(String projectBasePath) throws IOException {
