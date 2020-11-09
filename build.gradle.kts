@@ -34,30 +34,17 @@ val platformDownloadSources: String by project
 group = pluginGroup
 version = pluginVersion
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven("https://dl.bintray.com/jetbrains/intellij-plugin-service")
-    }
-}
-val ideVersion = "203-EAP-SNAPSHOT"
-
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    /*jcenter()*/
+    jcenter()
     maven("https://jetbrains.bintray.com/intellij-third-party-dependencies")
     maven("https://jetbrains.bintray.com/jediterm")
     maven("https://jetbrains.bintray.com/pty4j")
     maven("https://cache-redirector.jetbrains.com/www.myget.org/F/rd-snapshots/maven")
 }
 dependencies {
-    testImplementation("com.jetbrains.intellij.javascript:javascript-test-framework:${ideVersion}")
-    testImplementation("com.jetbrains.intellij.resharper:resharper-test-framework:${ideVersion}")
-    testImplementation("com.jetbrains.intellij.copyright:copyright:${ideVersion}")
-    testImplementation("com.mscharhag.oleaster:oleaster-matcher:0.2.0")
-    testImplementation("com.mscharhag.oleaster:oleaster-runner:0.2.0")
-    /*detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")*/
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -109,29 +96,25 @@ tasks {
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription(
-            closure {
-                File("./README.md").readText().lines().run {
-                    val start = "<!-- Plugin description -->"
-                    val end = "<!-- Plugin description end -->"
+                closure {
+                    File("./README.md").readText().lines().run {
+                        val start = "<!-- Plugin description -->"
+                        val end = "<!-- Plugin description end -->"
 
-                    if (!containsAll(listOf(start, end))) {
-                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                    }
-                    subList(indexOf(start) + 1, indexOf(end))
-                }.joinToString("\n").run { markdownToHTML(this) }
-            }
+                        if (!containsAll(listOf(start, end))) {
+                            throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                        }
+                        subList(indexOf(start) + 1, indexOf(end))
+                    }.joinToString("\n").run { markdownToHTML(this) }
+                }
         )
 
         // Get the latest available change notes from the changelog file
         changeNotes(
-            closure {
-                changelog.getLatest().toHTML()
-            }
+                closure {
+                    changelog.getLatest().toHTML()
+                }
         )
-    }
-
-    test {
-        systemProperty("idea.home.path", File("${projectDir}/../").absolutePath)
     }
 
     publishPlugin {
