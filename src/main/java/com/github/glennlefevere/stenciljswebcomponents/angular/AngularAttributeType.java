@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 public enum AngularAttributeType {
 
+    REGULAR( "", "", null),
     EVENT("(", ")", "on-"),
     BANANA_BOX_BINDING( "[(", ")]", "bindon-"),
     PROPERTY_BINDING( "[", "]", "bind-");

@@ -65,17 +65,17 @@ public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDes
         List<StencilAttributeDescriptor> descriptors = new ArrayList<>();
 
         component.getProps().forEach(prop -> {
-            descriptors.add(new StencilAttributeDescriptor(prop.name, tag, prop.required));
+            descriptors.add(new StencilAttributeDescriptor(prop.name, REGULAR, tag, prop.required, prop.defaultValue, prop.values));
             if (AngularProjectListener.INSTANCE.isAngularProject(tag.getProject())) {
-                descriptors.add(new StencilAttributeDescriptor(BANANA_BOX_BINDING.buildName(prop.name, false), tag, prop.required));
-                descriptors.add(new StencilAttributeDescriptor(PROPERTY_BINDING.buildName(prop.name, false), tag, prop.required));
+                descriptors.add(new StencilAttributeDescriptor(prop.name, BANANA_BOX_BINDING, tag, prop.required, prop.defaultValue, prop.values));
+                descriptors.add(new StencilAttributeDescriptor(prop.name, PROPERTY_BINDING, tag, prop.required, prop.defaultValue, prop.values));
             }
         });
 
         component.getEvents().forEach(event -> {
-            descriptors.add(new StencilAttributeDescriptor(event.event, tag));
+            descriptors.add(new StencilAttributeDescriptor(event.event, REGULAR, tag, event.detail));
             if (AngularProjectListener.INSTANCE.isAngularProject(tag.getProject())) {
-                descriptors.add(new StencilAttributeDescriptor(EVENT.buildName(event.event, false), tag));
+                descriptors.add(new StencilAttributeDescriptor(event.event, EVENT, tag, event.detail));
             }
         });
 

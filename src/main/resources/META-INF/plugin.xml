@@ -8,13 +8,6 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!--<localInspection
-                implementationClass="com.github.glennlefevere.stenciljswebcomponents.StencilAngularUndefinedBindingInspection"
-                key="stencil.inspection.invalid-directive-selector.name"
-                enabledByDefault="true"
-                level="ERROR"
-                displayName="Stencil-Angular-Inspection" groupKey="stencil.inspection.group.name"/>-->
-
         <completion.contributor language="HTML"
                                 implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
 
