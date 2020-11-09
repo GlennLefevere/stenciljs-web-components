@@ -130,8 +130,11 @@ public class StencilAttributeDescriptor extends BasicXmlAttributeDescriptor impl
         } else if (values.size() > 1) {
             this.isEnumerated = true;
             String[] enumValues = new String[values.size()];
-            this.enumValues = values.stream().map(value -> value.value).collect(Collectors.toList()).toArray(enumValues);
-            return values.get(0).type;
+            this.enumValues = values.stream()
+                    .map(value -> value.value == null ? transformEnumType(value.type) : value.value)
+                    .collect(Collectors.toList())
+                    .toArray(enumValues);
+            return "string";
         }
         return "";
     }
@@ -140,4 +143,7 @@ public class StencilAttributeDescriptor extends BasicXmlAttributeDescriptor impl
         return "CustomEvent<" + type + ">";
     }
 
+    private String transformEnumType(String value) {
+        return value.substring(value.lastIndexOf(".") + 1);
+    }
 }
