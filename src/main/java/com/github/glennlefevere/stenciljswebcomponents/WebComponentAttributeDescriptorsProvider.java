@@ -4,6 +4,7 @@ import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDocComponent;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
 import com.github.glennlefevere.stenciljswebcomponents.listeners.AngularProjectListener;
 import com.github.glennlefevere.stenciljswebcomponents.listeners.StencilProjectListener;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.xml.XmlAttributeDescriptor;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import static com.github.glennlefevere.stenciljswebcomponents.angular.AngularAttributeType.*;
 
 public class WebComponentAttributeDescriptorsProvider implements XmlAttributeDescriptorsProvider {
+    private static final Logger log = Logger.getInstance(WebComponentAttributeDescriptorsProvider.class);
 
     @Override
     public XmlAttributeDescriptor[] getAttributeDescriptors(XmlTag context) {

@@ -3,24 +3,31 @@
     <name>stenciljs-web-components</name>
     <vendor>glennlefevere</vendor>
 
-
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <extensions defaultExtensionNs="com.intellij"><!--
-        <applicationService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.glennlefevere.stenciljswebcomponents.services.MyProjectService"/>-->
+    <extensions defaultExtensionNs="com.intellij">
+        <!--<localInspection
+                implementationClass="com.github.glennlefevere.stenciljswebcomponents.StencilAngularUndefinedBindingInspection"
+                key="stencil.inspection.invalid-directive-selector.name"
+                enabledByDefault="true"
+                level="ERROR"
+                displayName="Stencil-Angular-Inspection" groupKey="stencil.inspection.group.name"/>-->
+
         <completion.contributor language="HTML"
                                 implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
 
         <xml.elementDescriptorProvider
                 implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentDescriptorsProvider"/>
         <xml.attributeDescriptorsProvider
+                order="first"
                 implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentAttributeDescriptorsProvider"/>
 
         <preloadingActivity
                 implementation="com.github.glennlefevere.stenciljswebcomponents.preloading.StencilPreloadingActivity"/>
     </extensions>
+
+    <resource-bundle>messages.Stencil</resource-bundle>
 </idea-plugin>
         <!-- perm:Z2xlbm4ubGVmZXZlcmU=.OTItMjcyNw==.uO046jJSAa5YMxU9d7wNHQZ2YhFwZo -->

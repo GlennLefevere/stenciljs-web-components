@@ -34,17 +34,30 @@ val platformDownloadSources: String by project
 group = pluginGroup
 version = pluginVersion
 
+buildscript {
+    repositories {
+        mavenCentral()
+        maven("https://dl.bintray.com/jetbrains/intellij-plugin-service")
+    }
+}
+val ideVersion = "203-EAP-SNAPSHOT"
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    jcenter()
+    /*jcenter()*/
     maven("https://jetbrains.bintray.com/intellij-third-party-dependencies")
     maven("https://jetbrains.bintray.com/jediterm")
     maven("https://jetbrains.bintray.com/pty4j")
     maven("https://cache-redirector.jetbrains.com/www.myget.org/F/rd-snapshots/maven")
 }
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
+    testImplementation("com.jetbrains.intellij.javascript:javascript-test-framework:${ideVersion}")
+    testImplementation("com.jetbrains.intellij.resharper:resharper-test-framework:${ideVersion}")
+    testImplementation("com.jetbrains.intellij.copyright:copyright:${ideVersion}")
+    testImplementation("com.mscharhag.oleaster:oleaster-matcher:0.2.0")
+    testImplementation("com.mscharhag.oleaster:oleaster-runner:0.2.0")
+    /*detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")*/
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -115,6 +128,10 @@ tasks {
                 changelog.getLatest().toHTML()
             }
         )
+    }
+
+    test {
+        systemProperty("idea.home.path", File("${projectDir}/../").absolutePath)
     }
 
     publishPlugin {

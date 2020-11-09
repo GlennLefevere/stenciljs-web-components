@@ -6,13 +6,14 @@ import com.intellij.psi.meta.PsiPresentableMetaData;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.xml.XmlAttributeDescriptor;
+import com.intellij.xml.impl.BasicXmlAttributeDescriptor;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.net.URL;
 
-public class StencilAttributeDescriptor implements XmlAttributeDescriptor, PsiPresentableMetaData {
+public class StencilAttributeDescriptor extends BasicXmlAttributeDescriptor implements XmlAttributeDescriptor, PsiPresentableMetaData {
 
     private final String name;
     private final boolean required;
