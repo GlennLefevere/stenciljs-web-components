@@ -112,7 +112,7 @@ public class StencilAttributeDescriptor extends BasicXmlAttributeDescriptor impl
 
     @Override
     public @Nullable @Nls String getTypeName() {
-        return null;
+        return this.returnType;
     }
 
     @Override

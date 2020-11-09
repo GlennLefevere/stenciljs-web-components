@@ -26,7 +26,6 @@ public class StencilProjectListener implements ProjectManagerListener {
 
     @Override
     public void projectOpened(@NotNull Project project) {
-        log.warn(project.getName());
         try {
             StencilMergedDoc mergedDoc = new StencilMergedDoc();
             for (Path docPath : getAllStencilDocs(project.getBasePath())) {
