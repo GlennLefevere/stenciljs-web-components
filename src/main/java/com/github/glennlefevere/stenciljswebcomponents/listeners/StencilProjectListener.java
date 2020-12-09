@@ -1,6 +1,5 @@
 package com.github.glennlefevere.stenciljswebcomponents.listeners;
 
-import com.github.glennlefevere.stenciljswebcomponents.completationProvider.HtmlTagCompletionProvider;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilDoc;
 import com.github.glennlefevere.stenciljswebcomponents.dto.StencilMergedDoc;
 import com.github.glennlefevere.stenciljswebcomponents.util.ModulePathUtil;
@@ -23,16 +22,14 @@ public class StencilProjectListener implements ProjectManagerListener {
     public static final StencilProjectListener INSTANCE = new StencilProjectListener();
 
     private final Map<Project, StencilMergedDoc> projectStencilDocMap = new HashMap<>();
+    private final Map<Project, List<Path>> projectStencilDocPathMap = new HashMap<>();
 
     @Override
     public void projectOpened(@NotNull Project project) {
         try {
-            StencilMergedDoc mergedDoc = new StencilMergedDoc();
-            for (Path docPath : getAllStencilDocs(project.getBasePath())) {
-                String json = String.join("", Files.readAllLines(docPath));
-                StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
-                mergedDoc.addComponents(stencilDoc.components);
-            }
+            List<Path> paths = getAllStencilDocs(project.getBasePath());
+            StencilMergedDoc mergedDoc = getMergedDocForFilePaths(paths);
+            this.projectStencilDocPathMap.put(project, paths);
             this.projectStencilDocMap.put(project, mergedDoc);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -42,10 +39,48 @@ public class StencilProjectListener implements ProjectManagerListener {
     @Override
     public void projectClosed(@NotNull Project project) {
         this.projectStencilDocMap.remove(project);
+        this.projectStencilDocPathMap.remove(project);
     }
 
     public StencilMergedDoc getStencilMergedDocForProject(Project project) {
         return this.projectStencilDocMap.get(project);
+    }
+
+    public boolean isStencilDocFileFromProject(String path) {
+        for (Project project : projectStencilDocPathMap.keySet()) {
+            return projectStencilDocPathMap.get(project).stream().anyMatch(filePath -> filePath.toString().replaceAll("\\\\", "/").equals(path));
+        }
+        return false;
+    }
+
+    public Project getProjectFromFilePath(String path) {
+        for (Project project : projectStencilDocPathMap.keySet()) {
+            if (projectStencilDocPathMap.get(project).stream().anyMatch(filePath -> filePath.toString().replaceAll("\\\\", "/").equals(path))) {
+                return project;
+            }
+        }
+        return null;
+    }
+
+    public void projectFileUpdated(Project project) {
+        try {
+            StencilMergedDoc mergedDoc = getMergedDocForFilePaths(this.projectStencilDocPathMap.get(project));
+            projectStencilDocMap.replace(project, mergedDoc);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private StencilMergedDoc getMergedDocForFilePaths(List<Path> paths) throws IOException {
+        StencilMergedDoc mergedDoc = new StencilMergedDoc();
+
+        for (Path docPath : paths) {
+            String json = String.join("", Files.readAllLines(docPath));
+            StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
+            mergedDoc.addComponents(stencilDoc.components);
+        }
+
+        return mergedDoc;
     }
 
     private List<Path> getAllStencilDocs(String projectBasePath) throws IOException {

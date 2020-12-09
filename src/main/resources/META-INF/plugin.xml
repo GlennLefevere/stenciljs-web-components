@@ -12,6 +12,7 @@
                                 implementationClass="com.github.glennlefevere.stenciljswebcomponents.WebComponentContributor"/>
 
         <xml.elementDescriptorProvider
+                order="first"
                 implementation="com.github.glennlefevere.stenciljswebcomponents.WebComponentDescriptorsProvider"/>
         <xml.attributeDescriptorsProvider
                 order="first"
@@ -20,6 +21,10 @@
         <preloadingActivity
                 implementation="com.github.glennlefevere.stenciljswebcomponents.preloading.StencilPreloadingActivity"/>
     </extensions>
+
+    <projectListeners>
+        <listener class="com.github.glennlefevere.stenciljswebcomponents.listeners.FileListener" topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    </projectListeners>
 
     <resource-bundle>messages.Stencil</resource-bundle>
 </idea-plugin>
