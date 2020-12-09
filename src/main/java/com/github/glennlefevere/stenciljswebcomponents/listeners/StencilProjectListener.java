@@ -77,7 +77,9 @@ public class StencilProjectListener implements ProjectManagerListener {
         for (Path docPath : paths) {
             String json = String.join("", Files.readAllLines(docPath));
             StencilDoc stencilDoc = new Gson().fromJson(json, StencilDoc.class);
-            mergedDoc.addComponents(stencilDoc.components);
+            if (stencilDoc != null && stencilDoc.components != null) {
+                mergedDoc.addComponents(stencilDoc.components);
+            }
         }
 
         return mergedDoc;
