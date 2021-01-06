@@ -1,7 +1,11 @@
 <idea-plugin>
     <id>com.github.glennlefevere.stenciljswebcomponents</id>
     <name>stenciljs-web-components</name>
-    <vendor>glennlefevere</vendor>
+    <vendor email="glenn.lefevere@liantis.be">Glenn Lefevere</vendor>
+
+    <!--<description>Integrates stenciljs components used in a node application</description>-->
+
+    <change-notes>Initial release of the plugin.</change-notes>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
