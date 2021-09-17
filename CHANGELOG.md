@@ -6,6 +6,18 @@
 ### Added
 
 ### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [1.0.2]
+### Added
+
+### Changed
 - upgrade intellij version
 
 ### Deprecated
