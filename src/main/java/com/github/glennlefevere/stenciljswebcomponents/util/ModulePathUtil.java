@@ -7,7 +7,7 @@ import java.nio.file.Path;
 public class ModulePathUtil {
 
     public static boolean isPackageJsonOfModule(Path file) {
-        return file.toAbsolutePath().toString().toLowerCase().contains("node_modules") &&
+        return (file.toAbsolutePath().toString().toLowerCase().contains("node_modules") || file.toAbsolutePath().toString().toLowerCase().contains("dist")) &&
                file.toAbsolutePath().toString().toLowerCase().endsWith("package.json");
     }
 
