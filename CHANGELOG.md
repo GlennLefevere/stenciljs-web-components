@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 ### Added
+- Support for monorepos using stencil 
 
 ### Changed
 
