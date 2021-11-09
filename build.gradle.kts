@@ -38,11 +38,11 @@ version = pluginVersion
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    jcenter()
+    /*jcenter()
     maven("https://jetbrains.bintray.com/intellij-third-party-dependencies")
     maven("https://jetbrains.bintray.com/jediterm")
     maven("https://jetbrains.bintray.com/pty4j")
-    maven("https://cache-redirector.jetbrains.com/www.myget.org/F/rd-snapshots/maven")
+    maven("https://cache-redirector.jetbrains.com/www.myget.org/F/rd-snapshots/maven")*/
 }
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
