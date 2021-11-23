@@ -37,21 +37,10 @@ public class StencilProjectListener implements ProjectManagerListener {
     @Override
     public void projectOpened(@NotNull Project project) {
         try {
-            WatchService watchService = FileSystems.getDefault().newWatchService();
-            Path path = Paths.get(Objects.requireNonNull(project.getBasePath()));
-            path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY);
-
-            WatchKey key;
-            while ((key = watchService.take()) != null) {
-                for (WatchEvent<?> event : key.pollEvents()) {
-                    List<Path> paths = getAllStencilDocs(project.getBasePath());
-                    StencilMergedDoc mergedDoc = getMergedDocForFilePaths(paths);
-                    this.projectStencilDocPathMap.put(project, paths);
-                    this.projectStencilDocMap.put(project, mergedDoc);
-                }
-
-                key.reset();
-            }
+            List<Path> paths = getAllStencilDocs(project.getBasePath());
+            StencilMergedDoc mergedDoc = getMergedDocForFilePaths(paths);
+            this.projectStencilDocPathMap.put(project, paths);
+            this.projectStencilDocMap.put(project, mergedDoc);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
