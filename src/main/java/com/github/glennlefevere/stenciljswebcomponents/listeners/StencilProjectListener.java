@@ -7,16 +7,26 @@ import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManagerListener;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
 
 public class StencilProjectListener implements ProjectManagerListener {
+
     private static final Logger log = Logger.getInstance(StencilProjectListener.class);
 
     public static final StencilProjectListener INSTANCE = new StencilProjectListener();
@@ -27,10 +37,21 @@ public class StencilProjectListener implements ProjectManagerListener {
     @Override
     public void projectOpened(@NotNull Project project) {
         try {
-            List<Path> paths = getAllStencilDocs(project.getBasePath());
-            StencilMergedDoc mergedDoc = getMergedDocForFilePaths(paths);
-            this.projectStencilDocPathMap.put(project, paths);
-            this.projectStencilDocMap.put(project, mergedDoc);
+            WatchService watchService = FileSystems.getDefault().newWatchService();
+            Path path = Paths.get(Objects.requireNonNull(project.getBasePath()));
+            path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY);
+
+            WatchKey key;
+            while ((key = watchService.take()) != null) {
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    List<Path> paths = getAllStencilDocs(project.getBasePath());
+                    StencilMergedDoc mergedDoc = getMergedDocForFilePaths(paths);
+                    this.projectStencilDocPathMap.put(project, paths);
+                    this.projectStencilDocMap.put(project, mergedDoc);
+                }
+
+                key.reset();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -48,14 +69,21 @@ public class StencilProjectListener implements ProjectManagerListener {
 
     public boolean isStencilDocFileFromProject(String path) {
         for (Project project : projectStencilDocPathMap.keySet()) {
-            return projectStencilDocPathMap.get(project).stream().anyMatch(filePath -> filePath.toString().replaceAll("\\\\", "/").equals(path));
+            return projectStencilDocPathMap.get(project)
+                                           .stream()
+                                           .anyMatch(filePath -> filePath.toString()
+                                                                         .replaceAll("\\\\", "/")
+                                                                         .equals(path));
         }
         return false;
     }
 
     public Project getProjectFromFilePath(String path) {
         for (Project project : projectStencilDocPathMap.keySet()) {
-            if (projectStencilDocPathMap.get(project).stream().anyMatch(filePath -> filePath.toString().replaceAll("\\\\", "/").equals(path))) {
+            if (projectStencilDocPathMap.get(project)
+                                        .stream()
+                                        .anyMatch(
+                                                filePath -> filePath.toString().replaceAll("\\\\", "/").equals(path))) {
                 return project;
             }
         }
@@ -91,9 +119,9 @@ public class StencilProjectListener implements ProjectManagerListener {
 
         for (Path stencilModule : allStencilModules) {
             allStencilDocs.addAll(Files.walk(stencilModule.getParent())
-                    .filter(ModulePathUtil::isJsonFile)
-                    .filter(ModulePathUtil::isStencilDocsFile)
-                    .collect(Collectors.toList())
+                                       .filter(ModulePathUtil::isJsonFile)
+                                       .filter(ModulePathUtil::isStencilDocsFile)
+                                       .collect(Collectors.toList())
             );
         }
 
@@ -103,10 +131,10 @@ public class StencilProjectListener implements ProjectManagerListener {
     private Set<Path> getAllModulesUsingStencil(String projectBasePath) throws IOException {
         Path path = Paths.get(projectBasePath);
         return Files.walk(path)
-                .filter(Files::isRegularFile)
-                .filter(ModulePathUtil::isPackageJsonOfModule)
-                .filter(ModulePathUtil::isStencilModule)
-                .collect(Collectors.toSet());
+                    .filter(Files::isRegularFile)
+                    .filter(ModulePathUtil::isPackageJsonOfModule)
+                    .filter(ModulePathUtil::isStencilModule)
+                    .collect(Collectors.toSet());
     }
 
 }
