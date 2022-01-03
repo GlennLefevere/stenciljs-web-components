@@ -7,6 +7,7 @@
 - Support for monorepos using stencil 
 
 ### Changed
+- Upgrade intellij version
 
 ### Deprecated
 
