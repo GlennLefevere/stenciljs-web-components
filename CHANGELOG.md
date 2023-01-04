@@ -6,6 +6,7 @@
 ### Added
 
 ### Changed
+- Upgrade intellij version
 
 ### Deprecated
 
